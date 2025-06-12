@@ -72,13 +72,12 @@ class NeuralNetwork():
 
 
 
-#data is read from the datafile and stored in a python list
+#data is read from the datafiles and stored in python lists
 data_file_train = open("mnist_train.csv", 'r')
 data_list_train = data_file_train.readlines()
 data_file_train.close()
 
 
-#opens the training dataset
 data_file_test = open("mnist_test.csv", 'r')
 data_list_test = data_file_test.readlines()
 data_file_test.close()
