@@ -15,7 +15,7 @@ class NeuralNetwork():
         self.activation_function = lambda x: scipy.special.expit(x) 
 
 
-        #link weights between input- and hidden-layer are initialized as a randomized matrix with the dimensions (i*h) where i is the number of input nodes and h is the number of hidden nodes
+        #link weights between input- and hidden-layer are initialized as a randomized matrix with the dimensions (h*i) where i is the number of input nodes and h is the number of hidden nodes
         self.wih_rand = np.random.rand(self.h_nodes, self.i_nodes)
         #alternatively for larger networks: Xavier initialization 
         self.wih_norm = np.random.normal(0.0, np.sqrt(1.0 / self.i_nodes), (self.h_nodes, self.i_nodes))
