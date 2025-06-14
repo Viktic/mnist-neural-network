@@ -15,7 +15,7 @@ class NeuralNetwork():
         self.activation_function = lambda x: scipy.special.expit(x) 
 
 
-        #link weights between input- and hidden-layer are initialized as a randomized matrix with the dimensions (h*i) where i is the number of input nodes and h is the number of hidden nodes
+        #link weights between input- and hidden-layer are initialized as a randomized matrix with the dimensions (i*h) where i is the number of input nodes and h is the number of hidden nodes
         self.wih_rand = np.random.rand(self.h_nodes, self.i_nodes)
         #alternatively for larger networks: Xavier initialization 
         self.wih_norm = np.random.normal(0.0, np.sqrt(1.0 / self.i_nodes), (self.h_nodes, self.i_nodes))
@@ -24,6 +24,11 @@ class NeuralNetwork():
         self.woh_rand = np.random.rand(self.h_nodes, self.o_nodes)
         #alternatively for larger networks: Xavier initialization 
         self.woh_norm = np.random.normal(0.0, np.sqrt(1.0 / self.h_nodes), (self.o_nodes, self.h_nodes))
+
+        #bias values for the hidden-layer nodes are initialized as zeros
+        self.bh = np.zeros((hidden_nodes, 1))
+        #bias values for the output-layer nodes are initialized as zeros
+        self.bo = np.zeros((output_nodes, 1))
 
 
 
@@ -34,11 +39,11 @@ class NeuralNetwork():
         inputs = np.array(inputs_list, ndmin=2).T
 
         #hidden-layer inputs and outputs are calculated
-        hidden_inputs = np.dot(self.wih_norm, inputs)
+        hidden_inputs = np.dot(self.wih_norm, inputs) + self.bh
         hidden_outputs = self.activation_function(hidden_inputs)
 
         #output-layer inputs and outputs are calculated 
-        output_inputs = np.dot(self.woh_norm, hidden_outputs)
+        output_inputs = np.dot(self.woh_norm, hidden_outputs) + self.bo
         output_outputs = self.activation_function(output_inputs)
 
         return output_outputs
@@ -66,18 +71,26 @@ class NeuralNetwork():
         hidden_errors = np.dot(self.woh_norm.T, output_errors)
         
         #weights are refined
-        self.woh_norm += self.lr * np.dot((output_errors * output_outputs * (1.0 - output_outputs)), np.transpose(hidden_outputs))
+        self.delta_output = output_errors * output_outputs * (1.0 - output_outputs)
+        self.woh_norm += self.lr * np.dot(self.delta_output, np.transpose(hidden_outputs))
 
-        self.wih_norm += self.lr * np.dot((hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), np.transpose(inputs))
+        self.delta_hidden = hidden_errors * hidden_outputs * (1.0 - hidden_outputs)
+        self.wih_norm += self.lr * np.dot(self.delta_hidden, np.transpose(inputs))
+
+        #biases are refined
+        self.bo += self.lr * self.delta_output
+        
+        self.bh += self.lr * self.delta_hidden
 
 
 
-#data is read from the datafiles and stored in python lists
+#data is read from the datafile and stored in a python list
 data_file_train = open("mnist_train.csv", 'r')
 data_list_train = data_file_train.readlines()
 data_file_train.close()
 
 
+#opens the training dataset
 data_file_test = open("mnist_test.csv", 'r')
 data_list_test = data_file_test.readlines()
 data_file_test.close()
