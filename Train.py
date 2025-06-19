@@ -25,7 +25,7 @@ nn = NN.NeuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
 #preparation for mini-batch gradient descent:
 
 batch_size = 32 
-num_epochs = 30
+num_epochs = 5
 
 x = []
 y = []
@@ -51,6 +51,7 @@ y = np.array(y)
 n = len(x)
 #order of indices in the x and y arrays is shuffled randomly for each training-epoch to prevent the network from learning the order of elements
 for epoch in range(num_epochs):
+    print(epoch)
     #index-array containing every index in range(0, 59999)
     indices = np.arange(n)
     #index-array is shuffled, which assures which assures randomness when creating batches
