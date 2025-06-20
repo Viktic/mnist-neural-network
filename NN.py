@@ -11,9 +11,6 @@ class NeuralNetwork():
         self.o_nodes = output_nodes
 
         self.lr = learning_rate
-        #activation function is set to sigmoid activation function
-        self.activation_function = lambda x: scipy.special.expit(x) 
-
 
         #link weights between input- and hidden-layer are initialized as a randomized matrix with the dimensions (i*h) where i is the number of input nodes and h is the number of hidden nodes
         self.wih_rand = np.random.rand(self.h_nodes, self.i_nodes)
@@ -30,6 +27,9 @@ class NeuralNetwork():
         #bias values for the output-layer nodes are initialized as zeros
         self.bo = np.zeros((output_nodes, 1))
 
+    #activation function is set to sigmoid activation function
+    def activation_function(self, x):
+         return scipy.special.expit(x) 
 
 
     #query method to retrieve outputs from the network with respect to the current inputs (forward-propagation)

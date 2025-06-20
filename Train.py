@@ -1,16 +1,15 @@
 import NN
 import numpy as np 
-import pickle 
 
 
 #data is read from the datafile and stored in a python list
-data_file_train = open("mnist_train.csv", 'r')
+data_file_train = open("../mnist_train.csv", 'r')
 data_list_train = data_file_train.readlines()
 data_file_train.close()
 
 
 #opens the training dataset
-data_file_test = open("mnist_test.csv", 'r')
+data_file_test = open("../mnist_test.csv", 'r')
 data_list_test = data_file_test.readlines()
 data_file_test.close()
 
@@ -18,7 +17,7 @@ data_file_test.close()
 input_nodes = 784
 hidden_nodes = 150
 output_nodes = 10
-learning_rate = 0.3
+learning_rate = 0.01
 
 #instance of neural network with the parameters defined above is created
 nn = NN.NeuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
@@ -26,14 +25,15 @@ nn = NN.NeuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
 #preparation for mini-batch gradient descent:
 
 batch_size = 32 
-num_epochs = 5
+num_epochs = 30
 
 
-x = []
-y = []
 
 #list formatting loop that loops through every element in the dataset and formats it to fit in the input-array(x) or the target-array(y)
 def serializeData():
+    x = []
+    y = []
+
     for record in data_list_train:
         values = record.split(',')
         #inputs are rescaled to fit into the "comfort zone" of the neural network, which is between 0.01 and 1.00
@@ -42,21 +42,20 @@ def serializeData():
         targets = np.zeros(output_nodes) + 0.01
         targets[int(values[0])] = 0.99
 
-
-    #scaled inputs are appended to the input-array(x)
-    x.append(scaled_inputs)
-    #target vectors are appended to the target-array(y)
-    y.append(targets)
+        #scaled inputs are appended to the input-array(x)
+        x.append(scaled_inputs)
+        #target vectors are appended to the target-array(y)
+        y.append(targets)
 
     #data-lists are converted into numpy arrays for easier slicing
 
-x = np.array(x)
-y = np.array(y)
+    return np.array(x), np.array(y)
 
-n = len(x)
 
 #order of indices in the x and y arrays is shuffled randomly for each training-epoch to prevent the network from learning the order of elements
-def miniBatchGradientDescent():
+def miniBatchGradientDescent(x, y):
+    n = len(x)
+
     for epoch in range(num_epochs):
         print(epoch)
         #index-array containing every index in range(0, 59999)
@@ -94,7 +93,7 @@ def testAccuracy():
 
     accuracy = sum(scorecard) / len(data_list_test)
     print("Accuracy:", accuracy)
-
+    return accuracy
 
 
 

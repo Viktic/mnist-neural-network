@@ -1,5 +1,26 @@
 import Train
+import pickle
 
-Train.serializeData()
-Train.miniBatchGradientDescent()
-Train.testAccuracy()
+#defines path for the trained-network file
+nn_trained_file = "nn.pk1"
+
+#checks if there is a saved, trained network and loads it, if thats the case
+try:
+    with open(nn_trained_file, "rb") as file:
+        trained_network_loaded = pickle.load(file)
+        file.close()
+    print("loaded trained network")
+
+#if there is no saved, trained network, a network instance is created, trained and tests 
+except FileNotFoundError:
+
+    Train.miniBatchGradientDescent(*Train.serializeData())
+    accuracy = Train.testAccuracy()
+    #if the testing does satisfy the accuracy criterion, the trained network will be saved
+    if accuracy > 0.95:
+        with open(nn_trained_file, "wb") as file:
+            pickle.dump(Train.nn, file)
+            file.close()
+        print ("saved trained network")
+    else:
+        print ("Network did not meet training standarts")
