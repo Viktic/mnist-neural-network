@@ -27,6 +27,7 @@ except FileNotFoundError:
     else:
         print ("Network did not meet training standarts")
 
+
 training_data = Train.data_list_test
 
 #outputs the falsely classified image for better understanding of the networks perfomance
