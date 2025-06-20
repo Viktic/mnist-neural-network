@@ -11,7 +11,7 @@ try:
         file.close()
     print("loaded trained network")
 
-#if there is no saved, trained network, a network instance is created, trained and tests 
+#if there is no saved, trained network, a network instance is created, trained and tested 
 except FileNotFoundError:
 
     Train.miniBatchGradientDescent(*Train.serializeData())
