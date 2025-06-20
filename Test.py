@@ -1,9 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def output_misses(data_list, network):
-    
+
     for i in range(len(data_list)-1):
         values = data_list[i].split(',')
         correct_label = int(values[0])
