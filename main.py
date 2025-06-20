@@ -30,5 +30,5 @@ except FileNotFoundError:
 
 training_data = Train.data_list_test
 
-#outputs the falsely classified image for better understanding of the networks perfomance
+#outputs the falsely classified images for better understanding of the networks perfomance
 Test.output_misses(training_data, trained_network_loaded)
