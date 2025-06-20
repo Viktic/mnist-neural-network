@@ -1,5 +1,7 @@
 import Train
+import Test
 import pickle
+import numpy as np
 
 #defines path for the trained-network file
 nn_trained_file = "nn.pk1"
@@ -11,7 +13,7 @@ try:
         file.close()
     print("loaded trained network")
 
-#if there is no saved, trained network, a network instance is created, trained and tests 
+#if there is no saved, trained network, a network instance is created, trained and tested
 except FileNotFoundError:
 
     Train.miniBatchGradientDescent(*Train.serializeData())
@@ -24,3 +26,8 @@ except FileNotFoundError:
         print ("saved trained network")
     else:
         print ("Network did not meet training standarts")
+
+training_data = Train.data_list_test
+
+#outputs the falsely classified image for better understanding of the networks perfomance
+Test.output_misses(training_data, trained_network_loaded)
