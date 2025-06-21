@@ -57,7 +57,7 @@ class NeuralNetwork():
         inputs = np.array(input_list, ndmin=2).T
         targets = np.array(target_list, ndmin=2).T
 
-        #forward propagation with the inputs 
+        #forward propagation with the inputs
         hidden_inputs = np.dot(self.wih_norm, inputs)
         hidden_outputs = self.activation_function(hidden_inputs)
 
