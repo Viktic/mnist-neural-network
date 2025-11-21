@@ -15,4 +15,4 @@ To enhance performance, the training was later switched to **Mini-Batch Gradient
 - Increased the final test accuracy to **97.3%**
 - Increased training time to approximately **90 minutes**
 
-> **Note:** The extended training time is due to the network being implemented **without deep learning frameworks** such as PyTorch or TensorFlow. As a result, the training process **cannot be accelerated via GPU or TPU**.
+> **Note:** The extended training time is due to the network being implemented without deep learning frameworks such as PyTorch or TensorFlow. As a result, the training process cannot be accelerated via GPU or TPU.
