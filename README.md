@@ -1,4 +1,4 @@
-## Neural Network Training on MNIST
+## Neural Network Training on MNIST from scratch
 
 This neural network is trained on the well-known **MNIST dataset**, consisting of:
 
